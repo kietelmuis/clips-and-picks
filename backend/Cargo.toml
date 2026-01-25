@@ -10,6 +10,7 @@ futures-util = "0.3.31"
 hex = "0.4.3"
 md5 = "0.8.0"
 reqwest = { version = "0.13.1", features = ["json", "zstd", "gzip", "brotli", "query"] }
+rocket = "0.5.1"
 serde = "1.0.228"
 serde_derive = "1.0.228"
 serde_json = "1.0.128"

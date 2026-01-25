@@ -1,0 +1,9 @@
+[build]
+  command = "cargo build --release && cp backend/target/release/arctix_web ./backend"
+  publish = "./backend"
+
+[functions]
+  directory = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
