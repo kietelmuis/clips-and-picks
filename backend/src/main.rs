@@ -1,10 +1,20 @@
-use std::{collections::{HashMap, VecDeque}, error};
+use std::{
+    collections::{HashMap, VecDeque},
+    error,
+};
 
-use actix_web::{get, web::{get, Data, Form}, App, HttpResponse, HttpServer, Responder};
+use actix_web::{
+    App, HttpResponse, HttpServer, Responder, get,
+    web::{Data, Form, get},
+};
 use parking_lot::Mutex;
+use serde_derive::Deserialize;
 use uuid::Uuid;
 
-use crate::api::{tiktok::TiktokApi, web::{game_create, game_get, game_join, game_start, health}};
+use crate::api::{
+    tiktok::TiktokApi,
+    web::{game_create, game_get, game_join, game_start, health},
+};
 
 mod api;
 
@@ -21,7 +31,7 @@ struct AppState {
 
 #[derive(Deserialize)]
 struct AuthCallback {
-	code: String
+    code: String,
 }
 
 #[get("/auth/callback")]
@@ -44,15 +54,24 @@ async fn auth_callback(state: Data<AppState>, form: Form<AuthCallback>) -> impl 
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn error::Error>> {
-	let state = Data::new(AppState {
-		users: Mutex::new(HashMap::new())
-	});
-	
+    let state = Data::new(AppState {
+        users: Mutex::new(HashMap::new()),
+    });
+
     println!("[webapi] running at port {}", PORT);
-    HttpServer::new(move || App::new().app_data(state.clone()).service(health).service(auth_callback).service(game_create).service(game_join).service(game_start).route("/game", get().to(game_get)))
-        .bind(format!("0.0.0.0:{}", PORT))?
-        .run()
-        .await?;
+    HttpServer::new(move || {
+        App::new()
+            .app_data(state.clone())
+            .service(health)
+            .service(auth_callback)
+            .service(game_create)
+            .service(game_join)
+            .service(game_start)
+            .route("/game", get().to(game_get))
+    })
+    .bind(format!("0.0.0.0:{}", PORT))?
+    .run()
+    .await?;
 
     Ok(())
 }
