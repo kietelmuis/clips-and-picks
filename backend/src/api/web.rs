@@ -1,21 +1,25 @@
-use actix_ws::AggregatedMessage;
 use actix_web::web::{Data, Json, Path, Payload};
-use actix_web::{get, rt, Error, HttpRequest, HttpResponse, Responder};
+use actix_web::{Error, HttpRequest, HttpResponse, Responder, get, rt};
+use actix_ws::AggregatedMessage;
 use futures_util::StreamExt;
-use serde::{Deserialize, Serialize};
+use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::api::web;
 use crate::AppState;
+use crate::api::web;
 
 #[derive(Deserialize, Serialize)]
 struct GameResponse {
-	game_id: Uuid
+    game_id: Uuid,
 }
 
 // main websocket
-pub async fn game_get(data: Data<AppState>, req: HttpRequest, stream: Payload) -> Result<HttpResponse, Error> {
-	let (res, mut session, stream) = actix_ws::handle(&req, stream)?;
+pub async fn game_get(
+    data: Data<AppState>,
+    req: HttpRequest,
+    stream: Payload,
+) -> Result<HttpResponse, Error> {
+    let (res, mut session, stream) = actix_ws::handle(&req, stream)?;
 
     let mut stream = stream
         .aggregate_continuations()
@@ -37,20 +41,22 @@ pub async fn game_get(data: Data<AppState>, req: HttpRequest, stream: Payload) -
 
 #[get("/game/start/{uuid}")]
 async fn game_start(data: Data<AppState>, path: Path<String>) -> Result<impl Responder, Error> {
-	println!("starting game {}", path.into_inner());
-	Ok(HttpResponse::Ok())
+    println!("starting game {}", path.into_inner());
+    Ok(HttpResponse::Ok())
 }
 
 #[get("/game/join/{uuid}")]
 async fn game_join(data: Data<AppState>, path: Path<String>) -> Result<impl Responder, Error> {
-	println!("joining game {}", path.into_inner());
-	Ok(HttpResponse::Ok())
+    println!("joining game {}", path.into_inner());
+    Ok(HttpResponse::Ok())
 }
 
 #[get("/game/create")]
 async fn game_create() -> Result<impl Responder, Error> {
-	println!("creating game");
-	Ok(web::Json(GameResponse { game_id: Uuid::new_v4() }))
+    println!("creating game");
+    Ok(web::Json(GameResponse {
+        game_id: Uuid::new_v4(),
+    }))
 }
 
 #[get("/health")]
