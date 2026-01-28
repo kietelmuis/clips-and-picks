@@ -1,4 +1,4 @@
-const baseUrl = "https://whatliked.onrender.com";
+const baseUrl = "https://clipspicks.onrender.com";
 
 fetch(`${baseUrl}/health`).then((res) => {
     if (!res.ok) alert("server offline");
