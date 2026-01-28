@@ -7,10 +7,7 @@ edition = "2024"
 members = [".", "migration"]
 
 [dependencies]
-<<<<<<< HEAD
 migration = { path = "migration" }
-=======
->>>>>>> 1d8f068ed8ca2ef64bab0af4b668fabceb0672b0
 actix-rt = "2.11.0"
 actix-web = "4.12.1"
 actix-ws = "0.3.1"
@@ -19,12 +16,8 @@ futures-util = "0.3.31"
 hex = "0.4.3"
 md5 = "0.8.0"
 parking_lot = "0.12.5"
-<<<<<<< HEAD
 rand = "0.9.2"
 reqwest = { version = "0.13.1", features = ["json", "zstd", "gzip", "brotli", "query", "multipart"] }
-=======
-reqwest = { version = "0.13.1", features = ["json", "zstd", "gzip", "brotli", "query"] }
->>>>>>> 1d8f068ed8ca2ef64bab0af4b668fabceb0672b0
 serde = "1.0.228"
 serde_derive = "1.0.228"
 serde_json = "1.0.128"
