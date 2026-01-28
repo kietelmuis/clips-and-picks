@@ -1,14 +1,12 @@
 use std::error::Error;
 
 use bytes::Bytes;
-use reqwest::{
-    Client, StatusCode,
-    header::{CONTENT_TYPE, USER_AGENT},
-};
+use reqwest::{Client, StatusCode, header::CONTENT_TYPE};
 use serde_derive::Deserialize;
 use serde_json::json;
 use uuid::Uuid;
 
+#[derive(Clone)]
 pub struct TiktokApi {
     client: Client,
     auth: String,
